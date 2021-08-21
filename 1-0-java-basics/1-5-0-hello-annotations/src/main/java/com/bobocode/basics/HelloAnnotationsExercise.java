@@ -10,5 +10,5 @@ package com.bobocode.basics;
  * todo: Add complexityLevel with a default {@link Level} basic
  */
 @Exercise("hello-annotation-basic")
-public class HelloAnnotationsExercise { // todo: mark class with the annotation according to the javadoc
+public class HelloAnnotationsExercise {
 }
