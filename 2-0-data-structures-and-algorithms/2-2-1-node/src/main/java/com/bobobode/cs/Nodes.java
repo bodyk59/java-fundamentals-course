@@ -1,6 +1,6 @@
 package com.bobobode.cs;
 
-import com.bobocode.util.ExerciseNotCompletedException;
+import java.util.Objects;
 
 /**
  * A class that consists of static methods only and provides util methods for {@link Node}.
@@ -17,7 +17,7 @@ public class Nodes {
      * @return a new instance of {@link Node}
      */
     public static <T> Node<T> create(T element) {
-        throw new ExerciseNotCompletedException(); // todo:
+        return new Node<>(element);
     }
 
     /**
@@ -28,7 +28,7 @@ public class Nodes {
      * @param <T>    a genetic type
      */
     public static <T> void link(Node<T> first, Node<T> second) {
-        throw new ExerciseNotCompletedException(); // todo:
+        first.setNext(second);
     }
 
     /**
@@ -37,11 +37,13 @@ public class Nodes {
      *
      * @param firstElement  any element of type T
      * @param secondElement any element of type T
-     * @param <T>           a genetic type
+     * @param <T>           a generic type
      * @return a reference to a first node created based on firstElement
      */
     public static <T> Node<T> pairOf(T firstElement, T secondElement) {
-        throw new ExerciseNotCompletedException(); // todo:
+        var firstNode = create(firstElement);
+        link(firstNode, new Node<>(secondElement));
+        return firstNode;
     }
 
     /**
@@ -55,7 +57,11 @@ public class Nodes {
      * @return a reference to the first node
      */
     public static <T> Node<T> closedPairOf(T firstElement, T secondElement) {
-        throw new ExerciseNotCompletedException(); // todo:
+        var firstNode = new Node<>(firstElement);
+        var secondNode = new Node<>(secondElement);
+        link(firstNode, secondNode);
+        link(secondNode, firstNode);
+        return firstNode;
     }
 
     /**
@@ -67,7 +73,17 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> chainOf(T... elements) {
-        throw new ExerciseNotCompletedException(); // todo:
+        if (Objects.isNull(elements) || elements.length < 1) {
+            throw new NullPointerException();
+        }
+        var node = new Node<>(elements[0]);
+        var temp = node;
+        for (int i = 1; i < elements.length; i++) {
+            var nextNode = create(elements[i]);
+            link(temp, nextNode);
+            temp = nextNode;
+        }
+        return node;
     }
 
     /**
@@ -80,6 +96,17 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> circleOf(T... elements) {
-        throw new ExerciseNotCompletedException(); // todo:
+        var firstNode = chainOf(elements);
+        var temp = firstNode;
+        var lastNode = (Node<T>) null;
+        while (true) {
+            if (Objects.isNull(temp.getNext())) {
+                lastNode = temp;
+                break;
+            }
+            temp = temp.getNext();
+        }
+        link(lastNode, firstNode);
+        return firstNode;
     }
 }
